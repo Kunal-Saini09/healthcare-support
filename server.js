@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/healthcare-support'; // Middleware
+const PORT = process.env.PORT;
+const MONGODB_URI = process.env.MONGODB_URI; // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 // Request logger to debug form submissions

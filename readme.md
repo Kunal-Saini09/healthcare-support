@@ -304,6 +304,108 @@ Error: The `uri` parameter to `openUri()` must be a string
 
 ---
 
+---
+
+## 🚢 Deployment
+
+### Deploy to Vercel (Recommended for Production)
+
+Vercel provides free hosting for Node.js applications with automatic SSL, custom domains, and serverless functions.
+
+#### Step 1: Prepare MongoDB Atlas (Cloud Database)
+Since Vercel runs serverless functions, local MongoDB won't work. Use MongoDB Atlas instead:
+
+1. Go to [MongoDB Atlas](https://cloud.mongodb.com/)
+2. Create a free account and cluster
+3. Get your connection string: `mongodb+srv://username:password@cluster.mongodb.net/healthcare-support`
+4. Keep this string safe - you'll need it for environment variables
+
+#### Step 2: Prepare Your Repository
+1. Push your code to GitHub:
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin https://github.com/YOUR_USERNAME/healthcare-support.git
+   git push -u origin main
+   ```
+
+2. Ensure `vercel.json` exists (already created in this project)
+
+#### Step 3: Deploy to Vercel
+**Option A: Using Vercel CLI**
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+
+# Follow the prompts:
+# - Link to existing project? No
+# - Project name: healthcare-support
+# - Framework: Other
+```
+
+**Option B: Using Vercel Dashboard**
+1. Go to [vercel.com](https://vercel.com)
+2. Sign up with GitHub
+3. Click "Import Project"
+4. Select your GitHub repository
+5. Click "Import"
+
+#### Step 4: Set Environment Variables
+1. Go to your Vercel project dashboard
+2. Click "Settings" → "Environment Variables"
+3. Add the following:
+   - **Name:** `MONGODB_URI`
+   - **Value:** Your MongoDB Atlas connection string
+   - Click "Add"
+
+4. Redeploy to apply changes:
+   ```bash
+   vercel --prod
+   ```
+
+#### Step 5: Verify Deployment
+- Your app is now live at: `https://healthcare-support.vercel.app`
+- Test form submission on the deployed site
+- Check Vercel logs if there are any issues:
+  ```bash
+  vercel logs
+  ```
+
+### Troubleshooting Vercel Deployment
+
+**Error: MONGODB_URI is undefined**
+- Ensure you've set the environment variable in Vercel dashboard
+- Redeploy after setting it
+
+**Forms not submitting**
+- Check Vercel logs: `vercel logs`
+- Verify MongoDB Atlas allows connections from Vercel's IP (0.0.0.0/0)
+
+**Static files not loading**
+- Ensure `/public` folder exists and has all files
+- Check `vercel.json` routes are correct
+
+### Local Development with MongoDB Atlas
+If you want to test with the cloud database locally:
+
+1. Update `.env.local`:
+   ```env
+   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/healthcare-support
+   PORT=3000
+   ```
+
+2. Run locally:
+   ```bash
+   npm start
+   ```
+
+---
+
 ## 📞 Support & Contribution
 
 ### For NGOs & Social Organizations
