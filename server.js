@@ -2,10 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT;
-const MONGODB_URI = process.env.MONGODB_URI; // Middleware
+const PORT = process.env.PORT || 3000;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/healthcare-support';
+
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 // Request logger to debug form submissions
@@ -13,12 +16,21 @@ app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
     next();
 });
-app.use(express.static('public')); // Serve static files from 'public' folder
 
-// MongoDB Connection (replace with your MongoDB URI if using Atlas)
-mongoose.connect(MONGODB_URI)
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
+// Serve static files from 'public' folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// MongoDB Connection
+if (!MONGODB_URI) {
+    console.error('ERROR: MONGODB_URI is not set. Please set it in your environment variables.');
+} else {
+    mongoose.connect(MONGODB_URI, {
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 45000,
+    })
+        .then(() => console.log('MongoDB connected'))
+        .catch(err => console.error('MongoDB connection error:', err));
+}
 
 // Schemas and Models
 const patientSupportSchema = new mongoose.Schema({
@@ -107,7 +119,12 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
 });
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+// Start Server (only listen if not on Vercel)
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}
+
+// Export for Vercel serverless
+module.exports = app;

@@ -379,16 +379,51 @@ vercel
 ### Troubleshooting Vercel Deployment
 
 **Error: MONGODB_URI is undefined**
-- Ensure you've set the environment variable in Vercel dashboard
-- Redeploy after setting it
+- Check Vercel dashboard → Settings → Environment Variables
+- Ensure `MONGODB_URI` is set to your MongoDB Atlas connection string
+- Redeploy: `vercel --prod`
+- Verify in Vercel logs: `vercel logs`
 
-**Forms not submitting**
+**Error: Cannot find module or 404 on static files**
+- Ensure `/public` folder with all HTML/CSS/JS files is committed to Git
+- Verify `vercel.json` routing is correct
+- Rebuild deployment: Delete from Vercel dashboard and redeploy
+
+**Forms not submitting / 500 Internal Server Error**
 - Check Vercel logs: `vercel logs`
-- Verify MongoDB Atlas allows connections from Vercel's IP (0.0.0.0/0)
+- Verify MongoDB Atlas connection string in environment variables
+- Check if MongoDB Atlas allows Vercel IPs (whitelist: 0.0.0.0/0)
+- Test with `curl` or Postman to debug API
 
-**Static files not loading**
-- Ensure `/public` folder exists and has all files
-- Check `vercel.json` routes are correct
+**"Cannot GET /" error**
+- Ensure `index.html` is in `/public` folder
+- Check that `app.use(express.static(...))` is in server.js
+
+**Static files return 404**
+- Verify all files are in `/public/` directory
+- Check file names (case-sensitive on Linux servers)
+- Clear Vercel cache and redeploy
+
+**MongoDB connection times out**
+- Verify connection string format: `mongodb+srv://user:pass@cluster.mongodb.net/dbname`
+- Ensure password doesn't have special characters (if so, URL-encode them)
+- Check MongoDB Atlas firewall: Network Access → IP Whitelist → Allow from Anywhere (0.0.0.0/0)
+
+### Quick Debug Commands
+
+```bash
+# View Vercel logs in real-time
+vercel logs
+
+# Check environment variables
+vercel env ls
+
+# Redeploy to production
+vercel --prod
+
+# Remove old deployment
+vercel remove
+```
 
 ### Local Development with MongoDB Atlas
 If you want to test with the cloud database locally:
