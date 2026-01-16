@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Support</title>
+    <link rel="stylesheet" href="global.css">
+</head>
+
+<body>
+
+    <nav id="navbar">
+        <h1 id="image"><img src="health.png" alt="Logo">Healthcare Support</h1>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="patient.html">Patient Support</a></li>
+            <li><a href="volunteer.html">Volunteer Registration</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+    <header>
+        <h1>Healthcare Support Portal</h1>
+        <p class="para">
+            Get support, register as a volunteer, or contact us.
+        </p>
+        <p class="para">
+            Healthcare Support Portal is a simple, caring, and easy-to-use online platform designed to support patients
+            throughout their healthcare journey. It brings essential healthcare services together in one secure place,
+            helping users access support, information, and assistance without confusion or stress. The portal is
+            designed for people of all ages and technical backgrounds, ensuring a smooth and comfortable experience for
+            everyone.
+        </p>
+        <p class="para">
+            Patients can easily access patient support services, where they can ask questions, request help, and receive
+            guidance related to their health concerns. This feature ensures that users feel heard and supported at every
+            step. The platform also allows users to view medical information, receive important updates, and stay
+            informed about their health in a clear and understandable way.
+        </p>
+        <p class="para">
+            The portal includes a volunteer registration section for individuals who wish to contribute their time and
+            skills to support patients and healthcare initiatives. This helps build a strong and compassionate community
+            where volunteers can make a meaningful difference by assisting those in need.
+        </p>
+        <p class="para">
+            A dedicated Contact Us section is available to help users reach the support team easily for any inquiries,
+            feedback, or assistance. This ensures clear communication and quick resolution of concerns, creating a
+            reliable and trustworthy experience.
+        </p>
+    </header>
+
+    <!-- Chatbot Button -->
+    <div id="chatbot-button">💬 FAQ Chatbot</div>
+
+    <!-- Chatbot Modal -->
+    <div id="chatbot-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Healthcare FAQ Chatbot</h3>
+            <div id="chat-messages"></div>
+            <input type="text" id="chat-input" placeholder="Ask a question...">
+            <button id="send-chat">Send</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

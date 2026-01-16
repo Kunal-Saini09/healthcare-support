@@ -1,0 +1,230 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(to bottom,
+            rgb(152, 253, 152),
+            rgb(255, 255, 143),
+            white);
+    background-repeat: no-repeat;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    padding: 10px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+
+.para {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    padding: 10px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-style: italic;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container {
+    background: rgb(98, 98, 98);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 10px 12px 12px rgba(0, 0, 0, 0.5);
+}
+
+input,
+textarea,
+button {
+    display: block;
+    width: 90%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.home {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    padding: 10px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+
+#phome {
+    text-decoration: none;
+    color: black;
+    font-size: large;
+    font: bold;
+
+}
+
+#phome a {
+    text-decoration: none;
+    color: black;
+    font-size: large;
+    font: bold;
+    background: linear-gradient(to right,
+            red,
+            orange);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+button {
+    background: #007bff;
+    color: black;
+    width: 95%;
+    font-size: large;
+    font: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    background: linear-gradient(to right,
+            purple,
+            purple,
+            blue,
+            white);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Chatbot Styles */
+#chatbot-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#chat-messages {
+    height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#image img {
+    width: 50px;
+    height: 50px;
+    mix-blend-mode: darken;
+    border-radius: 50%;
+    object-fit: cover
+}
+
+#navbar {
+    background-color: rgb(53, 254, 53);
+    padding: 5px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+#image {
+    display: flex;
+    align-items: center;
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 25px;
+}
+
+#navbar ul li a {
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+#navbar ul li a:hover {
+    text-decoration: underline;
+    color: blue;
+}
+
+@media (max-width: 600px) {
+    #navbar {
+        flex-direction: column;
+        height: 100%;
+        width: 90%;
+        margin: 0px;
+        align-items: flex-start;
+        padding: 5px;
+    }
+
+    #navbar ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #navbar ul li a {
+        font-size: 16px;
+        padding: 10px;
+        margin: 15px;
+        border-radius: 20%;
+    }
+
+}
