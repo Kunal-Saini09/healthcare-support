@@ -52,8 +52,67 @@ healthcare-support/
 ---
 
 ## 🤖 AI-Powered Chatbot Feature
+The platform includes an integrated **AI Chatbot** powered by **Google Gemini** that provides intelligent responses to healthcare queries:
 
-The platform includes an integrated **FAQ Chatbot** that provides instant responses to common healthcare queries:
+### Google Gemini AI Integration
+
+**Google Gemini** is an advanced generative AI model developed by Google that powers the chatbot's intelligent responses. The integration provides:
+
+#### Features
+- **Natural Language Understanding** - Comprehends complex healthcare questions in natural language
+- **Context-Aware Responses** - Provides accurate, relevant healthcare information
+- **Conversation History** - Maintains chat history for better context understanding
+- **Multi-turn Conversations** - Supports back-and-forth dialogue for clarification
+- **Healthcare Focus** - Trained to respond helpfully to health, symptoms, vaccines, appointments, and volunteering queries
+
+#### How Gemini AI Works in This Project
+
+1. **Model Used**: Google Gemini (via `@google/generative-ai` SDK)
+2. **API Integration**: 
+   - Requires `GOOGLE_API_KEY` in `.env` file
+   - Uses Google's Generative AI API (`generativelanguage.googleapis.com`)
+3. **Chat Session Management**: 
+   - Maintains conversation history per user session
+   - Allows context-aware multi-turn conversations
+   - Stores history in-memory (can be extended to database)
+
+#### Environment Setup
+To enable Google Gemini AI:
+
+```env
+GOOGLE_API_KEY=your_google_api_key_here
+```
+
+**Get your API Key**:
+1. Visit [Google AI Studio](https://aistudio.google.com)
+2. Create a new API key
+3. Add it to your `.env` file
+4. Restart the server
+
+#### Request/Response Format
+```javascript
+// Client Request
+POST /api/chatbot
+{
+  "message": "What are the symptoms of fever?",
+  "sessionId": "user123"  // Optional, defaults to 'default'
+}
+
+// Server Response
+{
+  "response": "Fever symptoms typically include elevated body temperature above 98.6°F (37°C), along with chills, body aches, headache, and fatigue..."
+}
+```
+
+#### Fallback System
+If Gemini API is unavailable or encounters errors, the chatbot automatically falls back to a keyword-matching FAQ system with responses for:
+- Symptoms
+- Vaccines
+- Appointments
+- Volunteering
+- General health questions
+
+### Legacy Chatbot CapabilitiesThe platform includes an integrated **FAQ Chatbot** that provides instant responses to common healthcare queries:
 
 ### Chatbot Capabilities
 - **Symptom Information** - Quick reference for common symptoms

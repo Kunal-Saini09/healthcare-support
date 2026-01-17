@@ -2,11 +2,23 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config(); // Load environment variables
+const { GoogleGenAI } = require("@google/genai");
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/healthcare-support';
+
+// Initialize Google Gemini client and simple in-memory history store
+const chatHistories = {};
+const genAI = process.env.GOOGLE_API_KEY ? new GoogleGenAI(process.env.GOOGLE_API_KEY) : null;
+if (genAI) {
+    console.log('Google Gemini initialized successfully');
+} else {
+    console.log('Google API key not found. Chatbot will use fallback responses.');
+}
+
 
 // Middleware
 app.use(cors());
@@ -110,6 +122,41 @@ app.post('/submit-contact', async (req, res) => {
     } catch (error) {
         console.error('Error submitting contact form:', error);
         res.status(500).json({ error: 'Error submitting contact form.' });
+    }
+});
+
+
+// New AI Chatbot Endpoint
+app.post('/api/chatbot', async (req, res) => {
+
+    try {
+        const { message } = req.body;
+        // Start a chat session with history
+        const resp = await genAI.models.generateContent({ model: "gemini-3-flash-preview", contents: message });
+        // Send message and get response
+        res.json({ response: resp.text });
+    } catch (error) {
+        console.error('Gemini Error:', error);
+        // Fallback to keyword matching (unchanged)
+        const faqs = {
+            symptoms: 'Common symptoms include fever, cough, and fatigue. Please consult a doctor for proper diagnosis.',
+            vaccine: 'Vaccines are available at local clinics. Check eligibility on health.gov.',
+            appointment: 'Book an appointment via our portal or call 1-800-HEALTH.',
+            volunteer: 'Register as a volunteer using the volunteer form on our website.',
+            hello: 'Hello! How can I help you today?',
+            hi: 'Hi there! How can I assist you?',
+            help: 'I can help you with symptoms, vaccines, appointments, and volunteer information. What would you like to know?',
+            default: "I'm a healthcare assistant. I can help with questions about symptoms, vaccines, appointments, and volunteering. Please ask me something related to these topics."
+        };
+        let reply = faqs.default;
+        const lowerMessage = message.toLowerCase();
+        for (let key in faqs) {
+            if (lowerMessage.includes(key)) {
+                reply = faqs[key];
+                break;
+            }
+        }
+        res.json({ response: reply });
     }
 });
 

@@ -99,34 +99,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Chatbot Logic
-const faqs = {
-    "symptoms": "Common symptoms include fever, cough, and fatigue. Consult a doctor for advice.",
-    "vaccine": "Vaccines are available at local clinics. Check eligibility on health.gov.",
-    "appointment": "Book an appointment via our portal or call 1-800-HEALTH.",
-    "volunteer": "Register as a volunteer using the form above.",
-    "default": "I'm sorry, I don't have an answer for that. Please contact support."
-};
-
+// Chatbot Logic with AI
 const modal = document.getElementById('chatbot-modal');
 const chatMessages = document.getElementById('chat-messages');
 const chatInput = document.getElementById('chat-input');
 const sendChat = document.getElementById('send-chat');
+const sessionId = 'session-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
 
 document.getElementById('chatbot-button').onclick = () => modal.style.display = 'block';
 document.querySelector('.close').onclick = () => modal.style.display = 'none';
 
-sendChat.onclick = () => {
-    const userMessage = chatInput.value.toLowerCase();
+sendChat.onclick = async () => {
+    const userMessage = chatInput.value;
+    if (!userMessage.trim()) return;
     chatMessages.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
-    let response = faqs.default;
-    for (let key in faqs) {
-        if (userMessage.includes(key)) {
-            response = faqs[key];
-            break;
-        }
-    }
-    chatMessages.innerHTML += `<p><strong>Bot:</strong> ${response}</p>`;
     chatInput.value = '';
+
+    try {
+        const response = await fetch('/api/chatbot', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: userMessage, sessionId })  // Include sessionId
+        });
+        const data = await response.json();
+        chatMessages.innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
+    } catch (error) {
+        chatMessages.innerHTML += `<p><strong>Bot:</strong> Sorry, I'm having trouble responding right now.</p>`;
+    }
     chatMessages.scrollTop = chatMessages.scrollHeight;
 };
